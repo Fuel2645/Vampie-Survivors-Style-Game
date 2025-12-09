@@ -34,7 +34,8 @@ private:
 	void ImReady();
 	void Movement();
 
-	void OnOverlapBegin(
+	UFUNCTION()
+	virtual void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,

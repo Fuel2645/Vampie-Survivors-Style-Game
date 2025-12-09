@@ -87,6 +87,8 @@ void AFireFloor::UpdateSplineMeshes()
 
 		newMesh->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		newMesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+		newMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+		newMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
 		newMesh->OnComponentBeginOverlap.AddDynamic(this, &AFireFloor::OnOverlapBegin);
 		newMesh->OnComponentEndOverlap.AddDynamic(this, &AFireFloor::OnOverlapEnd);
 

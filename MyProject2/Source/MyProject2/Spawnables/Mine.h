@@ -29,6 +29,8 @@ private:
 	FTimerHandle ExplosionTimer;
 	float TimeTillExplosion = 2.0;
 	void Explosion();
+
+	UFUNCTION()
 	void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
 		AActor* OtherActor,

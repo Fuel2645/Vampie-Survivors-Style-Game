@@ -27,6 +27,7 @@ public:
 private:
 	UStaticMeshComponent* m_Beam;
 
+	UFUNCTION()
 	void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
 		AActor* OtherActor,

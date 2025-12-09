@@ -9,7 +9,7 @@ AIceShard::AIceShard()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	shardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	shardMesh->SetupAttachment(RootComponent);
+	RootComponent = shardMesh;
 	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshOBJ(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
 	UStaticMesh* Asset = MeshOBJ.Object;
 	shardMesh->SetStaticMesh(Asset);
@@ -17,9 +17,13 @@ AIceShard::AIceShard()
 	shardMesh->SetMaterial(0, Material.Object);
 	shardMesh->SetCastShadow(false);
 	shardMesh->SetRelativeScale3D(FVector(0,0,0));
-	shardMesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
-	shardMesh->OnComponentBeginOverlap.AddDynamic(this, &AIceShard::OnOverlapBegin);
+	shardMesh->SetMobility(EComponentMobility::Movable);
 	shardMesh->SetRelativeLocation(FVector(1600, 0, 0));
+	shardMesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	shardMesh->SetGenerateOverlapEvents(false);
+	shardMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+	shardMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
+	shardMesh->OnComponentBeginOverlap.AddDynamic(this, &AIceShard::OnOverlapBegin);
 }
 
 // Called when the game starts or when spawned
@@ -71,6 +75,7 @@ void AIceShard::ImReady()
 		true
 	);
 	this->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	shardMesh->SetGenerateOverlapEvents(true);
 	GetWorld()->GetTimerManager().ClearTimer(generationTimer);
 }
 
@@ -81,8 +86,10 @@ void AIceShard::Movement()
 
 void AIceShard::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Overlap")));
 	if (IUnitInteraction* Interface = Cast<IUnitInteraction>(OtherActor))
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Sucessful")));
 		Interface->Damage(m_Damage);
 	}
 

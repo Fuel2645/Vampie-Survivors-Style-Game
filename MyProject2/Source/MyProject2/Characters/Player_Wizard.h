@@ -38,14 +38,14 @@ protected:
 private:
 	WizardStates m_State;
 
-	UBaseAbilityComponent* GroundGroundGround_Spell;
-	UBaseAbilityComponent* IceIceIce_Spell;
-	UBaseAbilityComponent* IceIceFire_Spell;
+	UBaseAbilityComponent* GroundGroundGround_Spell; //done
+	UBaseAbilityComponent* IceIceIce_Spell; //done
+	UBaseAbilityComponent* IceIceFire_Spell; //done
 	UBaseAbilityComponent* IceFireFire_Spell;
-	UBaseAbilityComponent* IceIceGround_Spell;
+	UBaseAbilityComponent* IceIceGround_Spell; //done
 	UBaseAbilityComponent* IceGroundGround_Spell;
-	UBaseAbilityComponent* FireFireFire_Spell;
-	UBaseAbilityComponent* FireFireGround_Spell;
+	UBaseAbilityComponent* FireFireFire_Spell; //done
+	UBaseAbilityComponent* FireFireGround_Spell;  //done
 	UBaseAbilityComponent* FireGroundGround_Spell;
 	UBaseAbilityComponent* FireGroundIce_Spell;
 

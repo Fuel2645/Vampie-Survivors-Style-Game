@@ -19,6 +19,8 @@ AiceFloor::AiceFloor()
 	floorMesh->SetCastShadow(false);
 	floorMesh->SetRelativeScale3D(FVector(4, 4, 0.2));
 	floorMesh->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	floorMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+	floorMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
 	floorMesh->OnComponentBeginOverlap.AddDynamic(this, &AiceFloor::OnOverlapBegin);
 	floorMesh->OnComponentEndOverlap.AddDynamic(this, &AiceFloor::OnOverlapEnd);
 }

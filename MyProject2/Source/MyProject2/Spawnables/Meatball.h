@@ -55,6 +55,8 @@ private:
 		int32 OtherBodyIndex
 	);
 
+	void LookAtTheFlowers() { this->Destroy(); };
+
 
 	void Movement();
 	float m_MoveSpeed;

@@ -34,7 +34,14 @@ void APlayer_Wizard::Shoot(const FInputActionValue& Value)
 		}
 		else if (sortedOrder == "FGG") //2Ground 1 Fire
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("EEW")));
+			if (IsValid(FireGroundGround_Spell))
+			{
+				FireGroundGround_Spell->Activation();
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("COmponentn Invalid")));
+			}
 		}
 		else if (sortedOrder == "FFG") // 2Fire 1 Ground
 		{
@@ -49,7 +56,14 @@ void APlayer_Wizard::Shoot(const FInputActionValue& Value)
 		}
 		else if (sortedOrder == "GGI") //2Ground 1 Ice
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("EEQ")));
+			if (IsValid(IceGroundGround_Spell))
+			{
+				IceGroundGround_Spell->Activation();
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("COmponentn Invalid")));
+			}
 		}
 		else if (sortedOrder == "GII") //2Ice 1 Ground
 		{
@@ -57,10 +71,21 @@ void APlayer_Wizard::Shoot(const FInputActionValue& Value)
 			{
 				IceIceGround_Spell->Activation();
 			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("COmponentn Invalid")));
+			}
 		}
 		else if (sortedOrder == "FGI") //Trio
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("EQW")));
+			if (IsValid(FireGroundIce_Spell))
+			{
+				FireGroundIce_Spell->Activation();
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("COmponentn Invalid")));
+			}
 		}
 		else if (sortedOrder == "III") //3 Ice
 		{
@@ -86,7 +111,14 @@ void APlayer_Wizard::Shoot(const FInputActionValue& Value)
 		}
 		else if (sortedOrder == "FFI") //2Fire 1 Ice
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("QWW")));
+			if (IsValid(IceFireFire_Spell))
+			{
+				IceFireFire_Spell->Activation();
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("COmponentn Invalid")));
+			}
 		}
 		else if (sortedOrder == "FFF") //3 Fire
 		{
@@ -217,6 +249,11 @@ APlayer_Wizard::APlayer_Wizard()
 	IceIceFire_Spell = CreateDefaultSubobject<UIceShard_Spell>(TEXT("IIF"));
 	IceIceGround_Spell = CreateDefaultSubobject<UIceFloor_Spell>(TEXT("IIG"));
 	FireFireGround_Spell = CreateDefaultSubobject<UFireFloor_Spell>(TEXT("FFG"));
+
+	/*
+	
+	
+	*/
 
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> MeshMaterial(TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Orange.MI_Orange'"));
 	UMaterialInterface* LoadedMat = MeshMaterial.Object;

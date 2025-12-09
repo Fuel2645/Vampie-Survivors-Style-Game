@@ -22,6 +22,7 @@ AEnemy_Base::AEnemy_Base()
 	Cube->SetRelativeScale3D(FVector(0.25, 0.25, 1.0));
 	Cube->SetupAttachment(RootComponent);
 	Cube->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	Cube->SetGenerateOverlapEvents(true);
 	Cube->SetCastShadow(false);
 
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> CubeMaterial(TEXT("/Game/Material/MI_Red.MI_Red"));
@@ -39,6 +40,7 @@ AEnemy_Base::AEnemy_Base()
 	Gun->SetRelativeLocation(FVector(100, 0, 10));
 	Gun->SetupAttachment(Cube);
 	Gun->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	Gun->SetGenerateOverlapEvents(true);
 	Gun->SetCastShadow(false);
 
 
@@ -57,6 +59,7 @@ AEnemy_Base::AEnemy_Base()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = true;
 	Cube->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+	Cube->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
 }
 
 // Called when the game starts or when spawned

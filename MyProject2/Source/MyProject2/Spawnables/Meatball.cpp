@@ -15,15 +15,22 @@ AMeatball::AMeatball()
 	UStaticMesh* Asset = MeshOBJ.Object;
 	MeatballMesh->SetStaticMesh(Asset);
 	MeatballMesh->SetCastShadow(false);
-	MeatballMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	MeatballMesh->SetCollisionProfileName(TEXT("Custom"));
+	MeatballMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	MeatballMesh->SetCollisionResponseToAllChannels(ECR_Ignore);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECR_Overlap);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
+	MeatballMesh->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	MeatballMesh->SetGenerateOverlapEvents(true);
 	MeatballMesh->SetRelativeScale3D(FVector(0.4, 0.4, 0.4));
 	MeatballMesh->OnComponentBeginOverlap.AddDynamic(this, &AMeatball::OnOverlapBegin);
 	MeatballMesh->OnComponentEndOverlap.AddDynamic(this, &AMeatball::OnOverlapEnd);
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> MeshMaterial(TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Brown.MI_Brown'"));
 	MeatballMesh->SetMaterial(0, MeshMaterial.Object);
-	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
-	MeatballMesh->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+
 
 	m_MoveSpeed = 5.0f;
 
@@ -60,18 +67,25 @@ void AMeatball::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Othe
 	USphereComponent* explosionSphere = NewObject<USphereComponent>(this);
 	if (explosionSphere)
 	{
-		explosionSphere->SetSphereRadius(250.0f);
-		explosionSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		explosionSphere->RegisterComponent();
-		explosionSphere->SetCollisionResponseToAllChannels(ECR_Overlap);
+		explosionSphere->SetSphereRadius(250.0f);
+		explosionSphere->SetGenerateOverlapEvents(true);
 		explosionSphere->SetRelativeLocation(RootComponent->GetRelativeLocation());
+		explosionSphere->SetCollisionResponseToAllChannels(ECR_Ignore);
+		explosionSphere->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
+		explosionSphere->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+		explosionSphere->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECR_Overlap);
+		explosionSphere->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
+		explosionSphere->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
 		explosionSphere->OnComponentBeginOverlap.AddDynamic(this, &AMeatball::ExplosionOverlapBegin);
 	}
 	if (IUnitInteraction* Interface = Cast<IUnitInteraction>(OtherActor))
 	{
 		Interface->Damage(20.f);
 	}
-	this->Destroy();
+
+	FTimerHandle deathTimer;
+	GetWorld()->GetTimerManager().SetTimer(deathTimer, this, &AMeatball::LookAtTheFlowers, 0.2f, false);
 }
 
 void AMeatball::ExplosionOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

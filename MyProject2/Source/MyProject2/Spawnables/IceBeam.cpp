@@ -19,6 +19,8 @@ AIceBeam::AIceBeam()
 	m_Beam->SetCastShadow(false);
 	m_Beam->SetRelativeScale3D(FVector(0.5, 0.5, 40));
 	m_Beam->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	m_Beam->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
+	m_Beam->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
 	m_Beam->OnComponentBeginOverlap.AddDynamic(this, &AIceBeam::OnOverlapBegin);
 	m_Beam->SetRelativeRotation(FRotator(0, 90, 90));
 	m_Beam->SetRelativeLocation(FVector(1600, 0, 0));

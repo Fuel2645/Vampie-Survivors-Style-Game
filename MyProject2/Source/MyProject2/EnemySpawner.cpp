@@ -78,7 +78,8 @@ void AEnemySpawner::SpawnEnemy()
 	for (int x = 0; x < numToSpawn; x++)
 	{
 		AEnemy_Base* normalEnemy = GetWorld()->SpawnActor<AEnemy_Base>(GetRandomPointOutsideRadius(GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation(), 800, 1500), FRotator(0, 0, 0));
-		normalEnemy->Initalise(row);
+		if(IsValid(normalEnemy))
+			normalEnemy->Initalise(row);
 	}
 		
 	SpawnsTillBoss += numToSpawn;
