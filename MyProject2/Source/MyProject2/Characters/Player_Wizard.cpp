@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Characters/Player_Wizard.h"
-#include "MyProject2/Weapons/Bullet_Split.h"
+#include "Characters/Player_Wizard.h"
+#include "Weapons/Bullet_Split.h"
 
 void APlayer_Wizard::Shoot(const FInputActionValue& Value)
 {
@@ -249,6 +249,10 @@ APlayer_Wizard::APlayer_Wizard()
 	IceIceFire_Spell = CreateDefaultSubobject<UIceShard_Spell>(TEXT("IIF"));
 	IceIceGround_Spell = CreateDefaultSubobject<UIceFloor_Spell>(TEXT("IIG"));
 	FireFireGround_Spell = CreateDefaultSubobject<UFireFloor_Spell>(TEXT("FFG"));
+	IceGroundGround_Spell = CreateDefaultSubobject<UBrokenGround_Spell>(TEXT("IGG"));
+	FireGroundIce_Spell = CreateDefaultSubobject<UBasicProjectile_Spell>(TEXT("FGI"));
+	FireGroundGround_Spell = CreateDefaultSubobject<UEarthConstruct_Spell>(TEXT("FGG"));
+	IceFireFire_Spell = CreateDefaultSubobject<URotatingBallsAbility>(TEXT("IFF"));
 
 	/*
 	

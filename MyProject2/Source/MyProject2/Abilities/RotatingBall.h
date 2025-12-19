@@ -7,7 +7,7 @@
 #include "EngineUtils.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Interfaces/UnitInteraction.h"
 #include "RotatingBall.generated.h"
 
 

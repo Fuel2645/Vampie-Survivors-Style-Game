@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "MyProject2/Characters/ShardTypes.h"
+#include "Characters/ShardTypes.h"
 #include "ST_Enemy.generated.h"
 
 

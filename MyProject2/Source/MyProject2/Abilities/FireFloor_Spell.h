@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
-#include "MyProject2/Spawnables/FireFloor.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Spawnables/FireFloor.h"
 #include "FireFloor_Spell.generated.h"
 
 /**

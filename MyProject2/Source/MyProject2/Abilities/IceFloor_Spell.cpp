@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Abilities/IceFloor_Spell.h"
+#include "Abilities/IceFloor_Spell.h"
 
 void UIceFloor_Spell::Activation()
 {

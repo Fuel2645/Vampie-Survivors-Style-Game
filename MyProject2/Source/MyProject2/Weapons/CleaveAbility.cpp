@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CleaveAbility.h"
+#include "Weapons/CleaveAbility.h"
 
 
 void UCleaveAbility::Activation()

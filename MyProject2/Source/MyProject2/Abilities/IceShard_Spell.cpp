@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Abilities/IceShard_Spell.h"
+#include "Abilities/IceShard_Spell.h"
 
 void UIceShard_Spell::Activation()
 {

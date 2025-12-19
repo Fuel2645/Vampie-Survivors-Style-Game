@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyProject2/Interfaces/XP_Interface.h"
-#include "ShardTypes.h"
+#include "Interfaces/XP_Interface.h"
+#include "Characters/ShardTypes.h"
 #include "Components/SphereComponent.h"
 #include "XPShard.generated.h"
 

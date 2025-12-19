@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "UnitInteraction.h"
+#include "Interfaces/UnitInteraction.h"
 
 // Add default functionality here for any IUnitInteraction functions that are not pure virtual.
 

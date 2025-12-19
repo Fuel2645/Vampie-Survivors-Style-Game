@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Interfaces/UnitInteraction.h"
 #include "CleaveAbility.generated.h"
 
 /**

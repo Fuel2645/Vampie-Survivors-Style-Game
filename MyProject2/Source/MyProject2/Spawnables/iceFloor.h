@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyProject2/Interfaces/PlayerInteractionInterface.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Interfaces/PlayerInteractionInterface.h"
+#include "Interfaces/UnitInteraction.h"
 #include "iceFloor.generated.h"
 
 UCLASS()

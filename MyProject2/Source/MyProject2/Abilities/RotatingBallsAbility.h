@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseAbilityComponent.h"
-#include "RotatingBall.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Abilities/RotatingBall.h"
 #include "RotatingBallsAbility.generated.h"
 /**
  * 

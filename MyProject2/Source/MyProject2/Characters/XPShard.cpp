@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "XPShard.h"
+#include "Characters/XPShard.h"
 
 // Sets default values
 AXPShard::AXPShard()

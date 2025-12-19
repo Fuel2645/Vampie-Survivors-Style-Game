@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
-#include "MyProject2/Spawnables/Meatball.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Spawnables/Meatball.h"
 #include "Meteor_Shower_Spell.generated.h"
 
 /**

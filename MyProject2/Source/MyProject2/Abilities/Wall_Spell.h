@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
-#include "MyProject2/Spawnables/Wall.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Spawnables/Wall.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Wall_Spell.generated.h"
 

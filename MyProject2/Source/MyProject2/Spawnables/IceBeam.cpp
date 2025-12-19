@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Spawnables/IceBeam.h"
+#include "Spawnables/IceBeam.h"
 
 // Sets default values
 AIceBeam::AIceBeam()

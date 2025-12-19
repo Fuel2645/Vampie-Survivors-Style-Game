@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Abilities/IceBeem_Spell.h"
+#include "Abilities/IceBeem_Spell.h"
 
 void UIceBeem_Spell::Activation()
 {

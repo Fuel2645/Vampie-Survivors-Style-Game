@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Bullet_Base.h"
+#include "Weapons/Bullet_Base.h"
 #include "Bullet_Rebound.generated.h"
 
 /**

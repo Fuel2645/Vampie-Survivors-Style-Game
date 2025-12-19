@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Mine.h"
+#include "Spawnables/Mine.h"
 
 // Sets default values
 AMine::AMine()

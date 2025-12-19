@@ -38,7 +38,7 @@ void AEnemyController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollow
 	}
 	else if (Result.Code == EPathFollowingResult::Invalid)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Purple, "Invalid");
+		Movement();
 	}
 }
 

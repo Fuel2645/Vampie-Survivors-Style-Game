@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
+#include "Abilities/BaseAbilityComponent.h"
 #include "ST_Ability.generated.h"
 
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyProject2/Characters/Enemy_Base.h"
+#include "Characters/Enemy_Base.h"
 #include "ST_Enemy.h"
 #include "EnemySpawner.generated.h"
 

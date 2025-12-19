@@ -7,10 +7,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "AIController.h"
-#include "MyProject2/EnemyController.h"
-#include "MyProject2/Characters/XPShard.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
-#include "MyProject2/ST_Enemy.h"
+#include "EnemyController.h"
+#include "Characters/XPShard.h"
+#include "Interfaces/UnitInteraction.h"
+#include "ST_Enemy.h"
 #include "Enemy_Base.generated.h"
 
 UCLASS()

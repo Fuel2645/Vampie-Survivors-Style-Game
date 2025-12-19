@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Interfaces/UnitInteraction.h"
 #include "Boomerang.generated.h"
 
 UCLASS()

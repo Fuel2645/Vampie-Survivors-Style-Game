@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseAbilityComponent.h"
+#include "Abilities/BaseAbilityComponent.h"
 #include "PotionThrow.generated.h"
 
 /**

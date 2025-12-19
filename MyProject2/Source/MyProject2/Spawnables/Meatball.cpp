@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Spawnables/Meatball.h"
+#include "Spawnables/Meatball.h"
 
 // Sets default values
 AMeatball::AMeatball()

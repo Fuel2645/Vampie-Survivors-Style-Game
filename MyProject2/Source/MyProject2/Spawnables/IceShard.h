@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Interfaces/UnitInteraction.h"
 #include "IceShard.generated.h"
 
 UCLASS()

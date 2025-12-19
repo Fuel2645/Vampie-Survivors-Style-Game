@@ -4,22 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/BaseAbilityComponent.h"
-#include "Spawnables/iceFloor.h"
-#include "IceFloor_Spell.generated.h"
+#include "Spawnables/BrokenGround.h"
+#include "BrokenGround_Spell.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MYPROJECT2_API UIceFloor_Spell : public UBaseAbilityComponent
+class MYPROJECT2_API UBrokenGround_Spell : public UBaseAbilityComponent
 {
 	GENERATED_BODY()
-	
+
 public:
 	void Activation() override;
 	void StopAbility() override;
-	UIceFloor_Spell();
-
+	UBrokenGround_Spell();
+	
 private:
-	AActor* iceFloorActor;
+	ABrokenGround* brokenGround;
+	
 };

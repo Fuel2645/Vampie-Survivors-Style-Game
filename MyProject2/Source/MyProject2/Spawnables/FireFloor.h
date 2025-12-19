@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/SplineComponent.h"
 #include "Components/SplineMeshComponent.h"
-#include "MyProject2/Interfaces/UnitInteraction.h"
+#include "Interfaces/UnitInteraction.h"
 #include "FireFloor.generated.h"
 
 UCLASS()

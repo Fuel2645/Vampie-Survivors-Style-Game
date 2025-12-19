@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Spawnables/iceFloor.h"
+#include "Spawnables/iceFloor.h"
 
 // Sets default values
 AiceFloor::AiceFloor()

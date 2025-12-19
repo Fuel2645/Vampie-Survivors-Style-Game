@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interfaces/UnitInteraction.h"
-#include "IceBeam.generated.h"
+#include "BrokenGround.generated.h"
 
 UCLASS()
-class MYPROJECT2_API AIceBeam : public AActor
+class MYPROJECT2_API ABrokenGround : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AIceBeam();
+	ABrokenGround();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,7 +25,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	UStaticMeshComponent* m_Beam;
+	UStaticMeshComponent* circleBase;
+	UStaticMeshComponent* cylinderCollision;
+	TArray<UStaticMeshComponent*> spikeMeshes;
+	FTimerHandle movementTimer;
+	int movementCounter;
+
 
 	UFUNCTION()
 	void OnOverlapBegin(
@@ -37,4 +42,6 @@ private:
 		const FHitResult& SweepResult
 	);
 
+	void Movement();
+	
 };

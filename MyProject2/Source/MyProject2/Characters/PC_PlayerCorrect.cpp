@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PC_PlayerCorrect.h"
+#include "Characters/PC_PlayerCorrect.h"
 
 void APC_PlayerCorrect::BeginPlay()
 {

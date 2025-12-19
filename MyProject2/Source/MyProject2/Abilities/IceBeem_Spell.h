@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Abilities/BaseAbilityComponent.h"
-#include "MyProject2/Spawnables/IceBeam.h"
+#include "Abilities/BaseAbilityComponent.h"
+#include "Spawnables/IceBeam.h"
 #include "IceBeem_Spell.generated.h"
 
 /**

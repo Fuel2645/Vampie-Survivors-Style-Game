@@ -13,6 +13,8 @@ public class MyProject2 : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
 
+		PublicIncludePaths.AddRange(new string[] { "MyProject2" });
+
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		

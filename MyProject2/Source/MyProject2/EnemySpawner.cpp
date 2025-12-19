@@ -95,7 +95,6 @@ FVector AEnemySpawner::GetRandomPointOutsideRadius(const FVector& Origin, float 
 	// Random distance between Radius and MaxDistance
 	float Distance = FMath::RandRange(Radius, MaxDistance);
 
-	// Convert polar → Cartesian
 	float X = FMath::Cos(Angle) * Distance;
 	float Y = FMath::Sin(Angle) * Distance;
 

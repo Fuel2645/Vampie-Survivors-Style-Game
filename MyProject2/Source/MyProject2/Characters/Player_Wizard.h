@@ -3,14 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyProject2/Characters/Player_Background.h"
-#include "MyProject2/WizardStates.h"
-#include "MyProject2/Abilities/Wall_Spell.h"
-#include "MyProject2/Abilities/Meteor_Shower_Spell.h"
-#include "MyProject2/Abilities/IceBeem_Spell.h"
-#include "MyProject2/Abilities/IceShard_Spell.h"
-#include "MyProject2/Abilities/iceFloor_Spell.h"
-#include "MyProject2/Abilities/FireFloor_Spell.h"
+#include "Characters/Player_Background.h"
+#include "WizardStates.h"
+#include "Abilities/Wall_Spell.h"
+#include "Abilities/Meteor_Shower_Spell.h"
+#include "Abilities/IceBeem_Spell.h"
+#include "Abilities/IceShard_Spell.h"
+#include "Abilities/iceFloor_Spell.h"
+#include "Abilities/FireFloor_Spell.h"
+#include "Abilities/BrokenGround_Spell.h"
+#include "Abilities/BasicProjectile_Spell.h"
+#include "Abilities/EarthConstruct_Spell.h"
+#include "Abilities/RotatingBallsAbility.h"
 #include "Engine/StreamableManager.h"
 #include "Engine/AssetManager.h"
 #include "Player_Wizard.generated.h"
@@ -43,11 +47,11 @@ private:
 	UBaseAbilityComponent* IceIceFire_Spell; //done
 	UBaseAbilityComponent* IceFireFire_Spell;
 	UBaseAbilityComponent* IceIceGround_Spell; //done
-	UBaseAbilityComponent* IceGroundGround_Spell;
+	UBaseAbilityComponent* IceGroundGround_Spell; //done
 	UBaseAbilityComponent* FireFireFire_Spell; //done
 	UBaseAbilityComponent* FireFireGround_Spell;  //done
-	UBaseAbilityComponent* FireGroundGround_Spell;
-	UBaseAbilityComponent* FireGroundIce_Spell;
+	UBaseAbilityComponent* FireGroundGround_Spell; //done
+	UBaseAbilityComponent* FireGroundIce_Spell; //done
 
 	TArray<FString> m_Inputs;
 	bool ShootCheck;

@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Player_Background.h"
+#include "Characters/Player_Background.h"
 #include "EnhancedInput/Public/EnhancedInputSubsystems.h"
 #include "EnhancedInput/Public/EnhancedInputComponent.h"
-#include "MyProject2/Weapons/Bullet_Split.h"
+#include "Weapons/Bullet_Split.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values

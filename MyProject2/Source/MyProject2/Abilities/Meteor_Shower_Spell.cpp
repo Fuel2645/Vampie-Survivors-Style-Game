@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyProject2/Abilities/Meteor_Shower_Spell.h"
+#include "Abilities/Meteor_Shower_Spell.h"
 
 void UMeteor_Shower_Spell::Activation()
 {

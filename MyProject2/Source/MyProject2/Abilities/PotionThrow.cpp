@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PotionThrow.h"
-#include "MyProject2/Spawnables/PoisonPool.h"
+#include "Abilities/PotionThrow.h"
+#include "Spawnables/PoisonPool.h"
 
 
 void UPotionThrow::Activation()
