@@ -44,7 +44,7 @@ public:
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 
-	uint16 XPGainAmount;
+	int XPGainAmount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shard Type")
 	ShardTypes m_ShardType;

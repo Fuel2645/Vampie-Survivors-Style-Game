@@ -71,15 +71,8 @@ AActor* AEarthConstruct_Controller::GetClosestActor()
 		if(!AICheckTimer.IsValid())
 			GetWorld()->GetTimerManager().SetTimer(AICheckTimer, this, &AEarthConstruct_Controller::Movement, 0.5f, true);
 	}
-	if (IsValid(closestActor))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "Valid");
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Distance, %f"),closestDistance));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Invalid");
-	}
+		
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Distance, %f"),closestDistance));
 		
 
 

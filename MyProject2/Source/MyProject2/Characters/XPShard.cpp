@@ -35,7 +35,7 @@ void AXPShard::move()
 void AXPShard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ShardValue: %i"), XPGainAmount));
 }
 
 void AXPShard::OnConstruction(const FTransform& Transform)
@@ -45,21 +45,24 @@ void AXPShard::OnConstruction(const FTransform& Transform)
 	switch (m_ShardType)
 	{
 	case ShardTypes::Red:
-	{
+	{                                                                                                                                                                                                                                        
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Red.MI_Red'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 50;
 		break;
 	}
 	case ShardTypes::Green:
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Green.MI_Green'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 40;
 		break;
 	}
 	case ShardTypes::Blue:
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Blue.MI_Blue'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 25;
 
 		break;
 	}
@@ -67,7 +70,8 @@ void AXPShard::OnConstruction(const FTransform& Transform)
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Purple.MI_Purple'")));
 		shardMesh->SetMaterial(0, LoadedMat);
-		
+		XPGainAmount = 500;
+
 		break;
 	}
 	default:
@@ -111,18 +115,21 @@ void AXPShard::Initalise(ShardTypes givenType)
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Red.MI_Red'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 50;
 		break;
 	}
 	case ShardTypes::Green:
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Green.MI_Green'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 40;
 		break;
 	}
 	case ShardTypes::Blue:
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Blue.MI_Blue'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 25;
 
 		break;
 	}
@@ -130,6 +137,8 @@ void AXPShard::Initalise(ShardTypes givenType)
 	{
 		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Purple.MI_Purple'")));
 		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 500;
+
 
 		break;
 	}
@@ -143,8 +152,9 @@ void AXPShard::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 {
 	if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn() && OtherComp->GetClass() == UStaticMeshComponent::StaticClass())
 	{
-		if (IXP_Interface* Interface = Cast<IXP_Interface>(OtherActor))
+		if (IXP_Interface* Interface = Cast<IXP_Interface>(GetWorld()->GetFirstPlayerController()))
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ShardValue: %i"), XPGainAmount));
 			Interface->XPChange(XPGainAmount);
 			this->Destroy();
 		}

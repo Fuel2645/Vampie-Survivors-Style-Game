@@ -6,8 +6,8 @@
 #include "GameFramework/Character.h"
 #include "InputAction.h"
 #include "Abilities/BaseAbilityComponent.h"
-#include "Interfaces/XP_Interface.h"
 #include "Interfaces/PlayerInteractionInterface.h"
+#include "Interfaces/XP_Interface.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
@@ -18,7 +18,7 @@
 
 
 UCLASS()
-class MYPROJECT2_API APlayer_Background : public ACharacter, public IXP_Interface, public IPlayerInteractionInterface
+class MYPROJECT2_API APlayer_Background : public ACharacter, public IPlayerInteractionInterface
 {
 	GENERATED_BODY()
 

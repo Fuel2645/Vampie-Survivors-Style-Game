@@ -114,6 +114,7 @@ ABrokenGround::ABrokenGround()
 // Called when the game starts or when spawned
 void ABrokenGround::BeginPlay()
 {
+	Super::BeginPlay();
 	GetWorld()->GetTimerManager().SetTimer(movementTimer, this, &ABrokenGround::Movement, 0.01f, true);
 }
 
