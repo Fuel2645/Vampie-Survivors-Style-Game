@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Interfaces/XP_Interface.h"
 #include "Characters/ShardTypes.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "XPShard.generated.h"
 

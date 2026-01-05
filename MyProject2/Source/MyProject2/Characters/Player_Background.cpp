@@ -7,11 +7,15 @@
 #include "Weapons/Bullet_Split.h"
 #include "Kismet/KismetMathLibrary.h"
 
+
+
+
+
 // Sets default values
 APlayer_Background::APlayer_Background()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	ConstructorHelpers::FObjectFinder<UInputMappingContext> MC(TEXT("/Game/Input/IMC_PLayer.IMC_PLayer"));
 	inputMappingContext = MC.Object;
@@ -52,6 +56,7 @@ APlayer_Background::APlayer_Background()
 	Cube->SetRelativeScale3D(FVector(0.25, 0.25, 1.0));
 	Cube->SetupAttachment(RootComponent);
 	Cube->SetCastShadow(false);
+	Cube->SetCollisionProfileName(TEXT("NoCollision"));
 
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> CubeMaterial(TEXT("/Game/Material/MI_White.MI_White"));
 	if (CubeMaterial.Succeeded())
@@ -70,6 +75,8 @@ APlayer_Background::APlayer_Background()
 	Gun->SetRelativeLocation(FVector(100, 0, 10));
 	Gun->SetupAttachment(Cube);
 	Gun->SetCastShadow(false);
+	Gun->SetCollisionProfileName(TEXT("NoCollision"));
+
 
 
 	ConstructorHelpers::FObjectFinder<UMaterialInterface> GunMaterial(TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Orange.MI_Orange'"));
@@ -88,7 +95,7 @@ APlayer_Background::APlayer_Background()
 
 	this->SetActorTickInterval(0.01);
 
-
+	this->GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECR_Overlap);
 }
 
 // Called when the game starts or when spawned
@@ -110,20 +117,8 @@ void APlayer_Background::BeginPlay()
 		m_BaseBraking = GetCharacterMovement()->BrakingDecelerationWalking;
 		m_BaseFriction = GetCharacterMovement()->GroundFriction;
 	}
-}
 
-// Called every frame
-void APlayer_Background::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	FHitResult hitResult;
-
-
-	PC->GetHitResultUnderCursor(ECollisionChannel::ECC_GameTraceChannel1, false, hitResult);
-	
-	Cube->SetWorldRotation(FRotator(0, UKismetMathLibrary::FindLookAtRotation(Cube->GetComponentLocation(), hitResult.Location).Yaw,0));
-
-	
+	GetWorld()->GetTimerManager().SetTimer(mouseLocationTimer, this, &APlayer_Background::MouseLocation, 0.01f, true);
 }
 
 // Called to bind functionality to input
@@ -174,7 +169,7 @@ void APlayer_Background::Shoot(const FInputActionValue& Value)
 
 	
 
-}
+} 
 
 void APlayer_Background::Dash(const FInputActionValue& Value)
 {
@@ -237,5 +232,12 @@ void APlayer_Background::OnXPOverlapBegin(UPrimitiveComponent* OverlappedComp, A
 		Interface->XPShardMove();
 	}
 
+}
+
+void APlayer_Background::MouseLocation()
+{
+	FHitResult hitResult;
+	PC->GetHitResultUnderCursor(ECollisionChannel::ECC_GameTraceChannel1, false, hitResult);
+	Cube->SetWorldRotation(FRotator(0, UKismetMathLibrary::FindLookAtRotation(Cube->GetComponentLocation(), hitResult.Location).Yaw,0));
 }
 

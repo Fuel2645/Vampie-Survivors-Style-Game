@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "EnemyController.generated.h"
 
@@ -25,8 +26,9 @@ private:
 
 	void Rotation();
 	void Movement();
-
+	void playerDistanceCheck();
 	FTimerHandle m_RotationTimer;
+	FTimerHandle m_movementCheckTimer;
 
 	APawn* playerReference;
 

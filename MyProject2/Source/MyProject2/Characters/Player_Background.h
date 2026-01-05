@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "InputMappingContext.h"
 #include "Player_Background.generated.h"
 
@@ -26,7 +27,7 @@ public:
 	// Sets default values for this character's properties
 	APlayer_Background();
 
-	UPROPERTY(EditAnywhere, Category ="Input")
+	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputMappingContext* inputMappingContext;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -58,8 +59,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -103,6 +102,7 @@ private:
 
 	USphereComponent* xpSphereCollider;
 
+	FTimerHandle mouseLocationTimer;
 
 	bool ShootCheck = false;
 
@@ -119,6 +119,6 @@ private:
 		const FHitResult& SweepResult
 	);
 
-
+	void MouseLocation();
 
 };

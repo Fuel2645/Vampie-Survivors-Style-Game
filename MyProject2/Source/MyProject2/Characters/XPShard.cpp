@@ -9,7 +9,7 @@ AXPShard::AXPShard()
 	PrimaryActorTick.bCanEverTick = false;
 
 	shardMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	shardMesh->SetupAttachment(RootComponent);
+	RootComponent = shardMesh;
 	ConstructorHelpers::FObjectFinder<UStaticMesh> MeshOBJ(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
 	UStaticMesh* Asset = MeshOBJ.Object;
 	shardMesh->SetStaticMesh(Asset);
@@ -143,6 +143,9 @@ void AXPShard::Initalise(ShardTypes givenType)
 		break;
 	}
 	default:
+		UMaterialInterface* LoadedMat = Cast<UMaterialInterface>(StaticLoadObject(UMaterialInterface::StaticClass(), nullptr, TEXT("'/Game/Material/MI_Error.MI_Error'")));
+		shardMesh->SetMaterial(0, LoadedMat);
+		XPGainAmount = 0;
 		break;
 	}
 
@@ -150,7 +153,7 @@ void AXPShard::Initalise(ShardTypes givenType)
 
 void AXPShard::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn() && OtherComp->GetClass() == UStaticMeshComponent::StaticClass())
+	if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn() && OtherComp->IsA(UCapsuleComponent::StaticClass()) )
 	{
 		if (IXP_Interface* Interface = Cast<IXP_Interface>(GetWorld()->GetFirstPlayerController()))
 		{

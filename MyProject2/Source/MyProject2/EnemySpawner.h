@@ -35,5 +35,5 @@ private:
 	uint8 SpawnsTillBoss= 0;
 
 	TSoftObjectPtr<UDataTable> enemyDataTable;
-
+	
 };

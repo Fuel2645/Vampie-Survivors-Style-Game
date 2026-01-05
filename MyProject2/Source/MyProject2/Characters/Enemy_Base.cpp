@@ -21,7 +21,7 @@ AEnemy_Base::AEnemy_Base()
 	Cube->SetStaticMesh(Asset);
 	Cube->SetRelativeScale3D(FVector(0.25, 0.25, 1.0));
 	Cube->SetupAttachment(RootComponent);
-	Cube->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	Cube->SetCollisionProfileName(TEXT("NoCollision"));
 	Cube->SetGenerateOverlapEvents(true);
 	Cube->SetCastShadow(false);
 
@@ -39,8 +39,8 @@ AEnemy_Base::AEnemy_Base()
 	Gun->SetRelativeScale3D(FVector(1.0, 0.5, 0.2));
 	Gun->SetRelativeLocation(FVector(100, 0, 10));
 	Gun->SetupAttachment(Cube);
-	Gun->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
-	Gun->SetGenerateOverlapEvents(true);
+	Gun->SetCollisionProfileName(TEXT("NoCollision"));
+	Gun->SetGenerateOverlapEvents(false);
 	Gun->SetCastShadow(false);
 
 
@@ -60,6 +60,12 @@ AEnemy_Base::AEnemy_Base()
 	bUseControllerRotationYaw = true;
 	Cube->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Overlap);
 	Cube->SetCollisionResponseToChannel(ECC_GameTraceChannel4, ECR_Overlap);
+
+	this->GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECR_Block);
+	this->GetCapsuleComponent()->SetGenerateOverlapEvents(true);
+	this->GetCapsuleComponent()->SetCapsuleRadius(20.f);
+
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_NavWalking);
 }
 
 // Called when the game starts or when spawned
@@ -67,16 +73,12 @@ void AEnemy_Base::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	isActive = true;
 
 
 }
 
 // Called every frame
-void AEnemy_Base::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
 
 void AEnemy_Base::Damage(float inDamage)
 {
@@ -168,30 +170,34 @@ void AEnemy_Base::Initalise(FST_EnemyDataRow* data)
 
 void AEnemy_Base::DeathCheck()
 {
-	if (m_HP <= 0)
+	if (m_HP <= 0 && isActive)
 	{
-		AXPShard* deathShard = GetWorld()->SpawnActor<AXPShard>(Cube->GetComponentLocation(), Cube->GetComponentRotation());
+		isActive = false;
+		FActorSpawnParameters spawnParams;
+		spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		spawnParams.Owner = this;
+		spawnParams.Instigator = GetInstigator();
 
+		AXPShard* deathShard = GetWorld()->SpawnActor<AXPShard>(AXPShard::StaticClass(), Cube->GetComponentLocation(), Cube->GetComponentRotation(), spawnParams);
 
-		switch (m_Shardtype)
-		{
-		case ShardTypes::Red:
-			deathShard->Initalise(ShardTypes::Red);
-			break;
-		case ShardTypes::Blue:
-			deathShard->Initalise(ShardTypes::Blue);
-			break;
-		case ShardTypes::Purple:
-			deathShard->Initalise(ShardTypes::Purple);
-			break;
-		case ShardTypes::Green:
-			deathShard->Initalise(ShardTypes::Green);
-			break;
-		default:
-			break;
-		}
-
-		this->Destroy();
+			switch (m_Shardtype)
+			{
+			case ShardTypes::Red:
+				deathShard->Initalise(ShardTypes::Red);
+				break;
+			case ShardTypes::Blue:
+				deathShard->Initalise(ShardTypes::Blue);
+				break;
+			case ShardTypes::Purple:
+				deathShard->Initalise(ShardTypes::Purple);
+				break;
+			case ShardTypes::Green:
+				deathShard->Initalise(ShardTypes::Green);
+				break;
+			default:
+				break;
+			}
+			this->Destroy();
 	}
 
 }

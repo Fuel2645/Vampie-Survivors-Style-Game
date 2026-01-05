@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "AIController.h"
 #include "EnemyController.h"
@@ -27,8 +28,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	void Damage(float inDamage) override;
 	void PoisonDamageStart(float inDamage, float TimeBetween) override;
@@ -39,6 +38,7 @@ public:
 	void StunStart(float Duration) override;
 	void StunEnd() override;
 	void Initalise(FST_EnemyDataRow* data);
+	const bool IsActive() { return isActive; }
 
 private:
 	AAIController* m_Controller;
@@ -50,6 +50,7 @@ private:
 	float poisonDamage;
 	float baseMovementSpeed;
 	bool isPoisoned = false;
+	bool isActive = false;
 	FTimerHandle poisonTimer;
 	
 	ShardTypes m_Shardtype;

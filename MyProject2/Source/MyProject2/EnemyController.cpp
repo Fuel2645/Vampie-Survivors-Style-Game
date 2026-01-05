@@ -30,7 +30,8 @@ void AEnemyController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollow
 {
 	if (Result.Code == EPathFollowingResult::Success)
 	{
-		Movement();
+		if (!GetWorld()->GetTimerManager().IsTimerActive(m_movementCheckTimer))
+			GetWorld()->GetTimerManager().SetTimer(m_movementCheckTimer, this, &AEnemyController::playerDistanceCheck, 0.1f, true);
 	}
 	else if (Result.Code == EPathFollowingResult::Aborted)
 	{
@@ -38,7 +39,8 @@ void AEnemyController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollow
 	}
 	else if (Result.Code == EPathFollowingResult::Invalid)
 	{
-		Movement();
+		if (!GetWorld()->GetTimerManager().IsTimerActive(m_movementCheckTimer))
+			GetWorld()->GetTimerManager().SetTimer(m_movementCheckTimer, this, &AEnemyController::playerDistanceCheck, 0.1f, true);
 	}
 }
 
@@ -52,6 +54,17 @@ void AEnemyController::Rotation()
 void AEnemyController::Movement()
 {
 	MoveToActor(playerReference, 10.f, false);
+}
+
+void AEnemyController::playerDistanceCheck()
+{
+	if (FVector::Dist(this->GetPawn()->GetActorLocation(), playerReference->GetActorLocation()) > 20.f)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(m_movementCheckTimer);
+		m_movementCheckTimer.Invalidate();
+		Movement();
+	}
+
 }
 
 void AEnemyController::UpdateControlRotation(float DeltaTime, bool bUpdatePawn)
