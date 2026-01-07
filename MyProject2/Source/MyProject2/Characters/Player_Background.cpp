@@ -87,6 +87,25 @@ APlayer_Background::APlayer_Background()
 	}
 
 
+	BaseCircle = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BasePlate"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> BasePlateOBJ(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+	UStaticMesh* PlateAsset = BasePlateOBJ.Object;
+	BaseCircle->SetStaticMesh(PlateAsset);
+	BaseCircle->SetRelativeScale3D(FVector(0.68, 0.68, 0.01));
+	BaseCircle->SetRelativeLocation(FVector(0, 0, -88));
+	BaseCircle->SetupAttachment(RootComponent);
+	BaseCircle->SetCollisionProfileName(TEXT("NoCollision"));
+	BaseCircle->SetGenerateOverlapEvents(false);
+	BaseCircle->SetCastShadow(false);
+
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> BasePlateMaterial(TEXT("/Game/Material/MI_Black.MI_Black"));
+	if (BasePlateMaterial.Succeeded())
+	{
+		UMaterialInterface* LoadedMat = BasePlateMaterial.Object;
+		BaseCircle->SetMaterial(0, LoadedMat);
+	}
+	
+
 	xpSphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("xpCollector"));
 	xpSphereCollider->InitSphereRadius(800.f);
 	xpSphereCollider->SetupAttachment(Cube);
@@ -103,6 +122,8 @@ void APlayer_Background::BeginPlay()
 {
 	Super::BeginPlay();
 	PC = Cast<APlayerController>(GetController());
+
+	this->Tags.Add(FName("Player"));
 
 	if (IsValid(PC))
 	{
@@ -211,6 +232,10 @@ void APlayer_Background::Ability4(const FInputActionValue& Value)
 
 void APlayer_Background::Damage(float inDamage)
 {
+	m_HP -= inDamage;
+	DeathCheck();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Current HP: %f"), m_HP));
+
 }
 
 void APlayer_Background::IceSurfaceStart(float newFriction, float newBraking)
@@ -239,5 +264,13 @@ void APlayer_Background::MouseLocation()
 	FHitResult hitResult;
 	PC->GetHitResultUnderCursor(ECollisionChannel::ECC_GameTraceChannel1, false, hitResult);
 	Cube->SetWorldRotation(FRotator(0, UKismetMathLibrary::FindLookAtRotation(Cube->GetComponentLocation(), hitResult.Location).Yaw,0));
+}
+
+void APlayer_Background::DeathCheck()
+{
+	if (m_HP <= 0)
+	{
+		UKismetSystemLibrary::QuitGame(GetWorld(), GetWorld()->GetFirstPlayerController(), EQuitPreference::Quit, true);
+	}
 }
 

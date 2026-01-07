@@ -44,12 +44,31 @@ AEnemy_Base::AEnemy_Base()
 	Gun->SetCastShadow(false);
 
 
-	ConstructorHelpers::FObjectFinder<UMaterialInterface> GunMaterial(TEXT("/Script/Engine.MaterialInstanceConstant'/Game/Material/MI_Orange.MI_Orange'"));
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> GunMaterial(TEXT("/Game/Material/MI_Orange.MI_Orange"));
 	if (GunMaterial.Succeeded())
 	{
 		UMaterialInterface* LoadedMat = GunMaterial.Object;
 		Gun->SetMaterial(0, LoadedMat);
 	}
+
+	BaseCircle = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BasePlate"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> BasePlateOBJ(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+	UStaticMesh* PlateAsset = BasePlateOBJ.Object;
+	BaseCircle->SetStaticMesh(PlateAsset);
+	BaseCircle->SetRelativeScale3D(FVector(0.4, 0.4, 0.01));
+	BaseCircle->SetRelativeLocation(FVector(0, 0, -88));
+	BaseCircle->SetupAttachment(RootComponent);
+	BaseCircle->SetCollisionProfileName(TEXT("NoCollision"));
+	BaseCircle->SetGenerateOverlapEvents(false);
+	BaseCircle->SetCastShadow(false);
+
+	ConstructorHelpers::FObjectFinder<UMaterialInterface> BasePlateMaterial(TEXT("/Game/Material/MI_Black.MI_Black"));
+	if (BasePlateMaterial.Succeeded())
+	{
+		UMaterialInterface* LoadedMat = BasePlateMaterial.Object;
+		BaseCircle->SetMaterial(0, LoadedMat);
+	}
+
 
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
 
@@ -64,8 +83,29 @@ AEnemy_Base::AEnemy_Base()
 	this->GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECR_Block);
 	this->GetCapsuleComponent()->SetGenerateOverlapEvents(true);
 	this->GetCapsuleComponent()->SetCapsuleRadius(20.f);
+	this->GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AEnemy_Base::OnOverlapBegin);
+	this->GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AEnemy_Base::OnOverlapEnd);
 
 	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_NavWalking);
+
+
+
+	healthBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("Health Bar"));
+	healthBar->SetupAttachment(RootComponent);
+	healthBar->SetWidgetSpace(EWidgetSpace::World);
+	healthBar->SetDrawSize(FVector2D(100.f, 10.f));
+	healthBar->SetRelativeLocation(FVector(0, -20, 100));
+	healthBar->SetRelativeRotation(FRotator(90, 0,  0));
+	healthBar->SetUsingAbsoluteRotation(true);
+
+	ConstructorHelpers::FClassFinder<UUserWidget> healthBarBP(TEXT("/Game/UI/WBP_EnemyHealthBar"));
+
+	if (healthBarBP.Class)
+	{
+		healthBarWidgetClass = healthBarBP.Class;
+	}
+
+	
 }
 
 // Called when the game starts or when spawned
@@ -75,7 +115,11 @@ void AEnemy_Base::BeginPlay()
 
 	isActive = true;
 
+	if (healthBarWidgetClass)
+	{
 
+		healthBar->SetWidgetClass(healthBarWidgetClass);
+	}
 }
 
 // Called every frame
@@ -83,7 +127,13 @@ void AEnemy_Base::BeginPlay()
 void AEnemy_Base::Damage(float inDamage)
 {
 	m_HP -= inDamage;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Damage");
+
+	if (UHealthBar* HB = Cast<UHealthBar>(healthBar->GetUserWidgetObject()))
+	{
+		HB->SetBarPercent(m_HP / m_MaxHp);
+	}
+
+
 	DeathCheck();
 }
 
@@ -109,12 +159,19 @@ void AEnemy_Base::PoisonDamageStart(float inDamage, float TimeBetween)
 
 
 
+
 }
 
 void AEnemy_Base::PoisonDamage()
 {
 	m_HP -= poisonDamage;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Damage");
+
+	if (UHealthBar* HB = Cast<UHealthBar>(healthBar->GetUserWidgetObject()))
+	{
+		HB->SetBarPercent(m_HP/m_MaxHp);
+	}
+
+
 	DeathCheck();
 }
 
@@ -160,12 +217,20 @@ void AEnemy_Base::Initalise(FST_EnemyDataRow* data)
 {
 	Cube->SetMaterial(0, data->Colour);
 
+	m_MaxHp = data->HP;
 	m_HP = data->HP;
+	m_Damage = data->Damage;
 	
 	SetActorScale3D(data->size);
 	GetCharacterMovement()->MaxWalkSpeed = data->Speed;
 	baseMovementSpeed = data->Speed;
 	m_Shardtype = data->ShardType;
+	
+	if (UHealthBar* HB = Cast<UHealthBar>(healthBar->GetUserWidgetObject()))
+	{
+		HB->SetBarPercent(1);
+	}
+
 }
 
 void AEnemy_Base::DeathCheck()
@@ -200,6 +265,35 @@ void AEnemy_Base::DeathCheck()
 			this->Destroy();
 	}
 
+}
+
+void AEnemy_Base::PlayerDamage()
+{
+	if (IPlayerInteractionInterface* interface = Cast<IPlayerInteractionInterface>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)))
+	{
+
+		interface->Damage(m_Damage);
+	}
+}
+
+void AEnemy_Base::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->ActorHasTag(FName("Player")) && !GetWorld()->GetTimerManager().IsTimerActive(damageTimer) && OtherComp->IsA(UCapsuleComponent::StaticClass()))
+	{
+		PlayerDamage();
+		GetWorld()->GetTimerManager().SetTimer(damageTimer, this, &AEnemy_Base::PlayerDamage, 1.5f, true);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Overlap Start")));
+	}
+}
+
+void AEnemy_Base::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor->ActorHasTag(FName("Player")) && GetWorld()->GetTimerManager().IsTimerActive(damageTimer) && OtherComp->IsA(UCapsuleComponent::StaticClass()))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(damageTimer);
+		damageTimer.Invalidate();
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Overlap End")));
+	}
 }
 
 

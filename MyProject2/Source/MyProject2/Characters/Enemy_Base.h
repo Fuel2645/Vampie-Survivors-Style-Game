@@ -6,11 +6,14 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
+#include "UI/HealthBar.h"
 #include "Kismet/GameplayStatics.h"
 #include "AIController.h"
 #include "EnemyController.h"
 #include "Characters/XPShard.h"
 #include "Interfaces/UnitInteraction.h"
+#include "Interfaces/PLayerInteractionInterface.h"
 #include "ST_Enemy.h"
 #include "Enemy_Base.generated.h"
 
@@ -45,17 +48,45 @@ private:
 
 	UStaticMeshComponent* Cube;
 	UStaticMeshComponent* Gun;
+	UStaticMeshComponent* BaseCircle;
 
 	float m_HP = 100.f;
+	float m_MaxHp;
+	float m_Damage = 0;
 	float poisonDamage;
 	float baseMovementSpeed;
+
 	bool isPoisoned = false;
 	bool isActive = false;
+
+	FTimerHandle damageTimer;
 	FTimerHandle poisonTimer;
 	
 	ShardTypes m_Shardtype;
 
+	UWidgetComponent* healthBar;
+
+	TSubclassOf<UUserWidget> healthBarWidgetClass;
 
 	void DeathCheck();
+	void PlayerDamage();
 
+	UFUNCTION()
+	void OnOverlapBegin(
+		UPrimitiveComponent* OverlappedComp,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+
+
+	UFUNCTION()
+	virtual void OnOverlapEnd(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex
+	);
 };

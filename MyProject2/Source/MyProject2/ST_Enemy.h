@@ -32,4 +32,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	float Speed;
 
+	UPROPERTY(EditAnywhere)
+	float Damage;
+
 };

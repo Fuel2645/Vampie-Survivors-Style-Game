@@ -80,6 +80,8 @@ public:
 
 	UStaticMeshComponent* Cube;
 	UStaticMeshComponent* Gun;
+	UStaticMeshComponent* BaseCircle;
+
 	FTimerHandle ShootTimer;
 	float ShootCooldown = 0.2f;
 
@@ -108,6 +110,7 @@ private:
 
 	float m_BaseFriction;
 	float m_BaseBraking;
+	float m_HP = 100;
 
 	UFUNCTION()
 	void OnXPOverlapBegin(
@@ -120,5 +123,6 @@ private:
 	);
 
 	void MouseLocation();
+	void DeathCheck();
 
 };
